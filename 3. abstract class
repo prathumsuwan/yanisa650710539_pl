@@ -1,0 +1,60 @@
+//Abstract Class คือคลาสที่ไม่สามารถสร้างอินสแตนซ์โดยตรงได้ และทำหน้าที่เป็นแบบแม่แบบให้กับคลาสที่สืบทอดมา โดยต้องมีเมธอดอย่างน้อยหนึ่งตัวที่ไม่มีการกำหนดการทำงาน (abstract method)
+abstract class Animal {
+    Animal() {
+        System.out.println("create animal");
+    }
+
+    abstract void sound();  //abstract method ใน Animal โดยไม่มี body ทำให้คลาสที่สืบทอดต้องเขียนเมธอดนี้ใหม่
+
+    protected void finalize() throws Throwable {
+        System.out.println("delete animal");
+        super.finalize();
+    }
+}
+//abstract class: คลาส Animal เป็น abstract class ซึ่งไม่สามารถสร้าง object โดยตรงได้ แต่ใช้เป็นแม่แบบให้กับคลาสที่สืบทอด (Dog และ Cat)
+
+class Dog extends Animal {
+    Dog() {
+        System.out.println("dog");
+    }
+
+    @Override
+    void sound() {
+        System.out.println("dog barks");
+    }
+
+    protected void finalize() throws Throwable {
+        System.out.println("delete dog");
+        super.finalize();
+    }
+}
+
+class Cat extends Animal {
+    Cat() {
+        System.out.println("cat");
+    }
+
+    @Override
+    void sound() {
+        System.out.println("cat meows");
+    }
+
+    protected void finalize() throws Throwable {
+        System.out.println("delete cat");
+        super.finalize();
+    }
+}
+
+//การสืบทอด (inheritance): คลาส Dog และ Cat สืบทอดจาก Animal และต้องเขียนเมธอด sound() เอง
+
+public class Main {
+    public static void main(String[] args) {
+        Animal d = new Dog();
+        Animal c = new Cat();
+
+        d.sound();
+        c.sound();
+
+        System.gc();  // Trigger garbage collection
+    }
+}
